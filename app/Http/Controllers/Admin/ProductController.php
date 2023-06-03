@@ -84,7 +84,6 @@ class ProductController extends Controller
             'price' => $request->price,
             'duration' => $request->duration,
             'image' => $imageName
-
         ]);
 
 return response()->json(['success'=>'Product saved successfully.']);

@@ -28,15 +28,19 @@ Route::get('/cek-hotspot',[MikrotikController::class,'cek_hotspot']);
 Route::get('/interface',[MikrotikController::class,'interface']);
 Route::get('/get-user-profile',[MikrotikController::class,'get_user_profile']);
 Route::get('/generate-voucher',[MikrotikController::class,'generate_voucher']);
-Route::resource('order', OrderController::class);
 
 Route::middleware('auth:sanctum')->group(function() {
     Route::get('user', [UserController::class, 'fetch']);
     Route::post('user', [UserController::class, 'updateProfile']);
+    Route::post('logout', [UserController::class, 'logout']);
+// Route::resource('order', OrderController::class);
+Route::post('/checkout',[OrderController::class,'checkout']);
+
 });
 
+Route::get('/order/{id}',[OrderController::class,'status']);
 Route::post('login', [UserController::class, 'login']);
 Route::post('register', [UserController::class, 'register']);
-
+Route::get('/generate',[OrderController::class,'generate_voucher']);
 
 Route::get('products',[ProductController::class,'all']);

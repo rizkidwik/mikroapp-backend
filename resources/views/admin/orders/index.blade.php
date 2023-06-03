@@ -1,105 +1,66 @@
-<!doctype html>
-<html lang="id">
-
-<head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-
-    <title>Order Saya</title>
-
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css"
-        integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l" crossorigin="anonymous">
-
-    <style>
-        html {
-            font-size: 14px;
-        }
-
-        @media (min-width: 768px) {
-            html {
-                font-size: 16px;
-            }
-        }
-
-        .container {
-            max-width: 960px;
-        }
-
-        .pricing-header {
-            max-width: 700px;
-        }
-
-        .card-deck .card {
-            min-width: 220px;
-        }
-
-        .border-top {
-            border-top: 1px solid #e5e5e5;
-        }
-
-        .border-bottom {
-            border-bottom: 1px solid #e5e5e5;
-        }
-
-        .box-shadow {
-            box-shadow: 0 .25rem .75rem rgba(0, 0, 0, .05);
-        }
-
-    </style>
-</head>
-
-<body>
-
-    <div class="d-flex flex-column flex-md-row align-items-center p-3 px-md-4 mb-3 bg-white border-bottom box-shadow">
-        <h5 class="my-0 mr-md-auto font-weight-normal">Lvl Midtrans</h5>
-        <nav class="my-2 my-md-0 mr-md-3">
-            <a class="p-2 text-dark" href="https://jurnalmms.web.id/">Blog</a>
-            <a class="p-2 text-dark" href="https://github.com/mulyosyahidin">GitHub</a>
-            <a class="p-2 text-dark" href="https://instagram.com/mul.yoo">Instagram</a>
-        </nav>
-    </div>
-
-    <div class="container pb-5 pt-5">
-        <div class="row">
-            <div class="col-12">
-                <div class="card shadow">
-                    <div class="table-responsive">
-                        <table class="table table-hover table-condensed">
-                            <thead class="thead-light">
+@extends('layouts.default')
+@section('title', 'Order')
+@section('content')
+    <!-- Page Heading -->
+    <h1 class="h3 mb-4 text-gray-800">Order</h1>
+    <div class="container-fluid">
+        <div class="card shadow mb-4">
+            <div class="card-header py-3">
+                <h6 class="m-0 font-weight-bold text-primary">Data Order</h6>
+            </div>
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                        <thead>
+                            <tr>
                                 <th scope="col">#</th>
                                 <th scope="col">Total Harga</th>
                                 <th scope="col">Status Pembayaran</th>
-                                <th scope="col"></th>
-                            </thead>
-                            <tbody>
-                                @foreach ($orders as $order)
-                                    <tr>
-                                        <td>#{{ $order->number }}</td>
-                                        <td>{{ number_format($order->gross_amount, 2, ',', '.') }}</td>
-                                        <td>
-                                            @if ($order->status == "pending")
-                                                Menunggu Pembayaran
-                                            @elseif ($order->status == "success")
-                                                Sudah Dibayar
-                                            @else
-                                                Kadaluarsa
-                                            @endif
-                                        </td>
-                                        <td>
-                                            <a href="{{ route('orders.show', $order->id) }}" class="btn btn-success">
-                                                Lihat
-                                            </a>
-                                        </td>
-                                    </tr>
-                                @endforeach
-                            </tbody>
-                        </table>
-                    </div>
+                                <th scope="col">Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach ($orders as $order)
+                                <tr>
+                                    <td>{{ $x++ }}</td>
+                                    <td>{{ number_format($order->gross_amount, 2, ',', '.') }}</td>
+                                    <td>
+                                        @if ($order->status == 'pending')
+                                            Menunggu Pembayaran
+                                        @elseif ($order->status == 'settlement')
+                                            Sudah Dibayar
+                                        @else
+                                            Kadaluarsa
+                                        @endif
+                                    </td>
+                                    <td>
+                                        <a href="{{ route('orders.show', $order->id) }}" class="btn btn-success">
+                                            Lihat
+                                        </a>
+                                    </td>
+                                </tr>
+                            @endforeach
+
+                        </tbody>
+                    </table>
                 </div>
             </div>
         </div>
     </div>
 
-</body>
 
-</html>
+
+@endsection
+@push('after-style')
+    <!-- Custom styles for this page -->
+    <link href="{{ asset('back_assets/vendor/datatables/dataTables.bootstrap4.min.css') }}" rel="stylesheet">
+@endpush
+
+@push('after-script')
+    <!-- Page level plugins -->
+    <script src="{{ asset('back_assets/vendor/datatables/jquery.dataTables.min.js') }}"></script>
+    <script src="{{ asset('back_assets/vendor/datatables/dataTables.bootstrap4.min.js') }}"></script>
+
+    <!-- Page level custom scripts -->
+    <script src="{{ asset('back_assets/js/demo/datatables-demo.js') }}"></script>
+@endpush

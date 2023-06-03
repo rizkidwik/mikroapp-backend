@@ -35,7 +35,7 @@ class PaymentCallbackController extends Controller
                 // update status di table
                 Order::where('id', $order->id)->update([
                     'status' => "settlement",
-                    'transaction_id' => $notification->transaction_id,
+                    // 'transaction_id' => $notification->transaction_id,
                     'payment_type' => $notification->payment_type,
                     'code' => $notification->status_code,
                 ]);

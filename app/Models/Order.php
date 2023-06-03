@@ -15,6 +15,11 @@ class Order extends Model
         'snap_token','code','duration','user_id','product_id'
     ];
 
+
+    public function getOrderIdAttribute($order_id)
+    {
+       return (int) $order_id;
+    }
     public function user(){
         return $this->belongsTo(User::class,'user_id','id');
     }

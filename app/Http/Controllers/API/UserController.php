@@ -103,9 +103,19 @@ class UserController extends Controller
 
     public function logout(Request $request)
     {
-        $token = $request->user()->currentAccessToken()->delete();
+        // $header = $request->header();
+        // return $header;
+        try {
+            $user = auth('sanctum')->user();
+            $user->currentAccessToken()->delete();
 
-        return ResponseFormatter::success($token,'Token Revoked');
+            return ResponseFormatter::success($user,'Token Revoked');
+        } catch (Exception $error) {
+            return ResponseFormatter::error([
+                'message' => 'Something went wrong',
+                'error' => $error,
+            ],'Authentication Failed', 500);
+        }
     }
 
     public function updateProfile(Request $request)

@@ -44,6 +44,7 @@ Route::prefix('admin')->middleware(['auth','admin'])->group(function(){
     Route::resource('voucher', VoucherController::class);
     Route::resource('rates', RateController::class);
     Route::resource('config', ConfigController::class);
+    Route::resource('orders',App\Http\Controllers\Admin\OrderController::class);
     // Route::resource('payment', Admin\OrderController::class)->only(['index','show']);
 });
 
