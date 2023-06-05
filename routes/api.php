@@ -7,6 +7,7 @@ use App\Http\Controllers\API\OrderController;
 use App\Http\Controllers\API\ConfigController;
 use App\Http\Controllers\API\MikrotikController;
 use App\Http\Controllers\API\ProductController;
+use App\Http\Controllers\API\VoucherController;
 
 /*
 |--------------------------------------------------------------------------
@@ -39,6 +40,7 @@ Route::post('/checkout',[OrderController::class,'checkout']);
 });
 
 Route::get('/order/{id}',[OrderController::class,'status']);
+Route::get('/voucher/{order_id}',[VoucherController::class,'fetch']);
 Route::post('login', [UserController::class, 'login']);
 Route::post('register', [UserController::class, 'register']);
 Route::get('/generate',[OrderController::class,'generate_voucher']);

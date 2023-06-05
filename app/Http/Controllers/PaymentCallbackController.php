@@ -33,21 +33,31 @@ class PaymentCallbackController extends Controller
 
             if ($callback->isSuccess()) {
                 // update status di table
+
                 Order::where('id', $order->id)->update([
                     'status' => "settlement",
-                    // 'transaction_id' => $notification->transaction_id,
                     'payment_type' => $notification->payment_type,
                     'code' => $notification->status_code,
                 ]);
+
+
 
                 // Generate kode voucher
                 $random = Str::random(4);
 
                 $cek_kode = Voucher::where('code',$random)->first();
-                $cek_transaksi = Voucher::where('order_id',$order->id)->first();
+                $cek_transaksi = Voucher::where('order_id',$order->order_id)->first();
                 if(!$cek_kode && !$cek_transaksi){
+                    $comment = $order->order_id . '-' . $order->duration . '-' . date('Ymd_H:i:s');
+                    $query =    (new Query('/ip/hotspot/user/add'))
+                        ->equal('name', $random )
+                        ->equal('password',$random)
+                        ->equal('limit-uptime',$order->duration)
+                        ->equal('comment',$comment);
+                $response = $this->client->query($query)->read();
+
                     Voucher::create([
-                        'order_id'=> $order->id,
+                        'order_id'=> $order->order_id,
                         'product_id' => $order->product_id,
                         'transaction_id' => $notification->transaction_id,
                         'code' => $random,

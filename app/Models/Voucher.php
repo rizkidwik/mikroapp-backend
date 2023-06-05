@@ -11,7 +11,7 @@ class Voucher extends Model
     use HasFactory;
 
     protected $fillable = [
-        "product_id","code"
+        "product_id","code","order_id"
     ];
 
     public function product()
